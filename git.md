@@ -70,6 +70,8 @@ git ===>> version controler and change your application tracking
 		git remote remove origin 
 		git push origin main
 		git push origin master
+		git remote set-url origin URL_ADDRESS
 
 		git clone URL_ADDRESS
 		git push origin main
+		git pull
