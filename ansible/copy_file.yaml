@@ -1,7 +1,0 @@
-- name: copy file from local to remote server
-  ansible.builtin.copy:
-  src: /media/behnam/A/amertka/copy_file
-  dest: /home/behnam/copy_file
-  owner: behnam
-  group: behnam
-  mode: '0644'

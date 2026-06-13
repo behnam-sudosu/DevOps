@@ -1,0 +1,12 @@
+---
+- name: Copy file from local to server
+  hosts: all
+  become: yes
+  tasks:
+    - name: copy file from local to remote server
+      ansible.builtin.copy:
+        src: /media/behnam/A/test/test.yml
+        dest: /home/debian/file.txt
+        owner: debian
+        group: debian
+        mode: '0644'

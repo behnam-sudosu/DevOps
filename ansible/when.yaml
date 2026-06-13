@@ -1,0 +1,19 @@
+---
+- name: Use when
+  hosts: all
+  become: yes
+  tasks:
+    - name: Check file exist
+      command: ls /tmp/file1
+        register: file_check
+        ignore_eerrors: yes
+
+    - name: Print file exist
+      debug:
+        msg: "file exist"
+      when: file_check.rc == 0
+
+    - name: Print file does not exist
+      debug:
+        msg: "file does not exist"
+      when: file_check.rc != 0

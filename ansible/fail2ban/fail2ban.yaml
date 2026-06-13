@@ -1,0 +1,41 @@
+---
+- name: install and configure fail2ban
+  hosts: all
+  become: true
+
+  vars:
+    ssh_port: 2222
+    fail2ban_bantime: 2h
+    fail2ban_findtime: 60s
+    fail2ban_maxtry: 3
+    fail2ban_logpath: /var/log/auth.log
+
+  tasks:
+    - name: install fail2ban package
+      package:
+        name: fail2ban
+        state: present
+
+    - name: create jail.local file
+      copy:
+        dest: /etc/fail2ban/jail.local
+        content: |
+          [DEFAULT]
+          bantime = {{ fail2ban_bantime }}
+          findtime = {{ fail2ban_findtime }}
+          maxretry = {{ fail2ban_maxtry }}
+          ignoreip = 127.0.0.1/8 ::1
+
+          [sshd]
+          enabled = true
+          port = {{ ssh_port }}
+          filter = sshd
+          logpath = {{ fail2ban_logpath }}
+        mode: '0644'
+
+    - name: Ensure fail2ban service is started and enabled
+      service:
+        name: fail2ban
+        state: started
+        enabled: true
+

@@ -1,0 +1,9 @@
+---
+- name: shell
+  hosts: all
+  become: yes
+  tasks:
+    - name: send shell command to server for handel error
+      shell:
+        cmd: mkdir /tmp/ansible
+      ignore_errors: yes

@@ -16,19 +16,9 @@
 ### First way
     [all]
 
-    debian	ansible_host=191.168.1.105
-            ansible_user=behnam
-            ansible_ssh_password=123
-            ansible_port=22
-            ansible_connection=ssh
-            ansible_ssh_private_key_file=/home/behnam/.ssh/id_bhnm
+    debian	ansible_host=191.168.1.105 ansible_user=behnam ansible_ssh_password=123 ansible_port=22 ansible_connection=ssh ansible_ssh_private_key_file=/home/behnam/.ssh/id_bhnm
 
-    RHEL	  ansible_host=191.168.1.110
-            ansible_user=milad
-            ansible_ssh_password=321
-            ansible_port=2222
-            ansible_connection=ssh
-            ansible_ssh_private_key_file=/home/behnam/.ssh/id_bhnm
+    RHEL	  ansible_host=191.168.1.110 ansible_user=milad ansible_ssh_password=321 ansible_port=2222 ansible_connection=ssh ansible_ssh_private_key_file=/home/behnam/.ssh/id_bhnm
         
 ### second way
     [all]
@@ -153,93 +143,90 @@
   ansible-dock copy
 
 
-  # playbook
-  ansible-playbook
-  touch install-nfinx.yaml
-    ---
-    - name: Install nginx web server
-      hostas: all
-      become: yes
-      tasks:
-        - name: Update apt cache
-          ansible.builtin.apt:
-            update-cache: yes
-        
-        - name: Ensure nginx package is installed
-          ansible.builtin.apt:
-            name: nginx
-            state: present
-        
-        - name: Ensure nginx package is installed
-          ansible.builtin.apt:
-            name: nginx
-            state: absent
+# playbook
+ansible-playbook
+touch install-nfinx.yaml
+---
+- name: Install nginx web server
+  hosts: all
+  become: yes
+  tasks:
+    - name: Update apt cache
+      ansible.builtin.apt:
+        update-cache: yes
+    
+    - name: Ensure nginx package is installed
+      ansible.builtin.apt:
+        name: nginx
+        state: present
+    
+    - name: Remove nginx package
+      ansible.builtin.apt:
+        name: nginx
+        state: absent
 
-        - name: Copy file from local to server
-          ansible.builtin.copy:
-            src: /home/behnam/Document/file1
-            dest: /home/debian/Document/file1
-        
-        - name: Copy file from server to server
-          ansible.builtin.copy:
-            src: /home/behnam/Document/file2
-            dest: /home/debian/Document/file2
-            remote_src: yes
+    - name: Copy file from local to server
+      ansible.builtin.copy:
+        src: /home/behnam/Document/file1
+        dest: /home/debian/Document/file1
+    
+    - name: Copy file from server to server
+      ansible.builtin.copy:
+        src: /home/behnam/Document/file2
+        dest: /home/debian/Document/file2
+        remote_src: yes
 
-        - name: restart, stop, start, reload service
-          ansibel.builtin.sercice:
-            name: ngix
-            state: started
-            state: stopped
-            state: restarted
-            state: reloaded
-            state: enabled
+    - name: restart, stop, start, reload service
+      ansibel.builtin.sercice:
+        name: ngix
+        state: started
+        state: stopped
+        state: restarted
+        state: reloaded
+        state: enabled
 
-        - name: Make directory
-          shell:
-            cmd: mkdir /tmp/file1
-          ignore_errors: yes
+    - name: Make directory
+      shell:
+        cmd: mkdir /tmp/file1
+      ignore_errors: yes
 
-        - name: Print status
-          debug:
-            msg: nginx installed
+    - name: Print status
+      debug:
+        msg: nginx installed
 ```
-        - name: Execute shell command
-          shell:
-            cmd: df -h
-          register: shell_output
+    - name: Execute shell command
+      shell:
+        cmd: df -h
+      register: shell_output
 
-        - name: Display shell output
-          debug:
-            msg: "The command output is: {{ shell_output.stdout }}
+    - name: Display shell output
+      debug:
+        msg: "The command output is: {{ shell_output.stdout }}
 ```        
-        - name: Pint boot image
-          debug:
-            msg: "The boot image is: {{ ansible_cmdline.BOOT_IMAGE }}"
-        
-        - name: Print server ips
-          debug:
-            msg: "The ips address is: {{ ansible_all_ipv4_addresses }}"
+    - name: Pint boot image
+      debug:
+        msg: "The boot image is: {{ ansible_cmdline.BOOT_IMAGE }}"
+    
+    - name: Print server ips
+      debug:
+        msg: "The ips address is: {{ ansible_all_ipv4_addresses }}"
 ```
-        - name: Check file exist
-          command: ls /tmp/file1
-            register: file_check
-            ignore_eerrors: yes
+    - name: Check file exist
+      command: ls /tmp/file1
+        register: file_check
+        ignore_eerrors: yes
 
-        - name: Print file exist
-          debug:
-            msg: "file exist"
-          when: file_check.rc == 0
+    - name: Print file exist
+      debug:
+        msg: "file exist"
+      when: file_check.rc == 0
 
-        - name: Print file does not exist
-          debug:
-            msg: "file does not exist"
-          when: file_check.rc != 0
+    - name: Print file does not exist
+      debug:
+        msg: "file does not exist"
+      when: file_check.rc != 0
 ```
 
 
-   save the file
-   ansible-palybook install_nginx.yaml -i inventory.ini
 
-
-   -i inventory.ini
+ansible-palybook install_nginx.yaml -i inventory.ini

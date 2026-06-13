@@ -1,0 +1,16 @@
+---
+- name: Print something
+  hosts: all
+  become: yes
+  tasks:
+    - name: Print installed
+      debug:
+        msg: Nginx installed
+
+    - name: Pint boot image
+      debug:
+        msg: "The boot image is: {{ ansible_cmdline.BOOT_IMAGE }}"
+    
+    - name: Print server ips
+      debug:
+        msg: "The ips address is: {{ ansible_all_ipv4_addresses }}"
