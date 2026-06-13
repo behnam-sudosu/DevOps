@@ -67,6 +67,7 @@ git ===>> version controler and change your application tracking
 		git remote -v
 		git remote add origin URL_ADDRESS
 		git remote add URL_ADDRESS
+		git remote set-url origin URL
 		git remote remove origin 
 		git push origin main
 		git push origin master

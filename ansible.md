@@ -21,12 +21,14 @@
             ansible_ssh_password=123
             ansible_port=22
             ansible_connection=ssh
+            ansible_ssh_private_key_file=/home/behnam/.ssh/id_bhnm
 
     RHEL	  ansible_host=191.168.1.110
             ansible_user=milad
             ansible_ssh_password=321
             ansible_port=2222
             ansible_connection=ssh
+            ansible_ssh_private_key_file=/home/behnam/.ssh/id_bhnm
         
 ### second way
     [all]
@@ -46,6 +48,8 @@
     [all:vars]
         ansible_user=behnam
         ansible_port=22
+        ansible_connection=ssh
+        ansible_ssh_private_key_file=/home/behnam/.ssh/id_bhnm
 
 ## vim inventory.yaml
     all:
@@ -75,7 +79,7 @@
   ansible --list-hosts all -i /home/behnam/workspace/inventory.ini
   ansible --list-hosts all, db, web  inventory.ini
 
-# ansible add-hoc command
+# ansible ad-hoc command
   
   # -m ===>> module
   # -i ===>> inventory
