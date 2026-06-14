@@ -1,0 +1,19 @@
+---
+- name: Check file exist
+  hosts: all
+  become: yes
+  tasks:
+    - name: File exist
+      stat:
+        path: /tmp/file
+      register: file_status
+
+    - name: Print file exist
+      debug:
+        msg: "the file exist"
+      when: file_status.stat.exists
+
+    - name: Print file does not exist
+      debug:
+        msg: "the file does not exist"
+      when: not file_status.stat.exists

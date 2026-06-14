@@ -1,0 +1,20 @@
+---
+- name: Create user
+  hosts: all
+  become: yes
+  tasks:
+    - name: Update apt cache
+      ansible.builtin.apt:
+        update-cache: yes
+    
+    - name: Ensure nginx package is installed
+      ansible.builtin.apt:
+        name: nginx
+        state: present
+      notify: Restart nginx service
+  
+  handlers:
+    - name: Restart nginx service
+      service:
+        naem: nginx
+        state: restated

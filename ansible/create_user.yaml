@@ -1,0 +1,15 @@
+---
+- name: Create useer
+  hosts: all
+  become: yes
+  tasks:
+    - name: check if user exist
+      command: id deployer
+      register: user_check
+      ignore_errors: yes
+    
+    - name: Create if not exist
+      user:
+        name: deployer
+        state: present
+      when: user_check.rc != 0 

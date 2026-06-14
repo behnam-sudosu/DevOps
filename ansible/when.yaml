@@ -17,3 +17,22 @@
       debug:
         msg: "file does not exist"
       when: file_check.rc != 0
+
+
+# install package on Debian and RedHat base
+
+    - name: Update apt cache
+      ansible.builtin.apt:
+        update-cache: yes
+    
+    - name: Install package on Debian based system
+      apt:
+        name: vim
+        state: present
+      when: ansible_facts['os_family'] == "Debian"
+
+    - name: Install package on RedHat based system
+      yum:
+        name: vim
+        state: present
+      when: ansible_facts['os_family'] == "RedHat"

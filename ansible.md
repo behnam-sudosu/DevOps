@@ -164,6 +164,9 @@ touch install-nfinx.yaml
       ansible.builtin.apt:
         name: nginx
         state: absent
+    
+
+### copy
 
     - name: Copy file from local to server
       ansible.builtin.copy:
@@ -176,6 +179,7 @@ touch install-nfinx.yaml
         dest: /home/debian/Document/file2
         remote_src: yes
 
+### service
     - name: restart, stop, start, reload service
       ansibel.builtin.sercice:
         name: ngix
@@ -185,6 +189,7 @@ touch install-nfinx.yaml
         state: reloaded
         state: enabled
 
+### shell
     - name: Make directory
       shell:
         cmd: mkdir /tmp/file1
@@ -194,6 +199,7 @@ touch install-nfinx.yaml
       debug:
         msg: nginx installed
 ```
+### shell
     - name: Execute shell command
       shell:
         cmd: df -h
@@ -202,7 +208,8 @@ touch install-nfinx.yaml
     - name: Display shell output
       debug:
         msg: "The command output is: {{ shell_output.stdout }}
-```        
+```
+### debug       
     - name: Pint boot image
       debug:
         msg: "The boot image is: {{ ansible_cmdline.BOOT_IMAGE }}"
@@ -211,6 +218,9 @@ touch install-nfinx.yaml
       debug:
         msg: "The ips address is: {{ ansible_all_ipv4_addresses }}"
 ```
+
+### when
+
     - name: Check file exist
       command: ls /tmp/file1
         register: file_check
@@ -225,7 +235,84 @@ touch install-nfinx.yaml
       debug:
         msg: "file does not exist"
       when: file_check.rc != 0
+
 ```
+    - name: File exist
+      stat:
+        path: /tmp/file
+      register: file_status
+
+    - name: Print file exist
+      debug:
+        msg: "the file exist"
+      when: file_status.stat.exists
+
+    - name: Print file does not exist
+      debug:
+        msg: "the file does not exist"
+      when: not file_status.stat.exists
+```
+    - name: Update apt cache
+      ansible.builtin.apt:
+        update-cache: yes
+    
+    - name: Install package on Debian based system
+      apt:
+        name: vim
+        state: present
+      when: ansible_facts['os_family'] == "Debian"
+
+    - name: Install package on RedHat based system
+      yum:
+        name: vim
+        state: present
+      when: ansible_facts['os_family'] == "RedHat"
+```
+### create user
+---
+- name: Create user
+  hosts: all
+  become: yes
+  tasks:
+    - name: check if user exist
+      command: id deployer
+      register: user_check
+      ignore_errors: yes
+    
+    - name: Create if not exist
+      user:
+        name: deployer
+        state: present
+      when: user_check.rc != 0 
+```
+### handlers
+---
+- name: Create user
+  hosts: all
+  become: yes
+  tasks:
+    - name: Update apt cache
+      ansible.builtin.apt:
+        update-cache: yes
+    
+    - name: Ensure nginx package is installed
+      ansible.builtin.apt:
+        name: nginx
+        state: present
+      notify: Restart nginx service
+  
+  handlers:
+    - name: Restart nginx service
+      service:
+        naem: nginx
+        state: restated
+
+
+
+
+
+
+
 
 
 
