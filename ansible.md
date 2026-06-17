@@ -307,13 +307,100 @@ touch install-nfinx.yaml
         naem: nginx
         state: restated
 
+### loop
+---
+- name: Install package
+  hosts: all
+  become: yes
+  tasks:
+    - name: Install packages on servers
+        apt:
+          name: "{{ item }}"
+          state: present
+        loop:
+          - vim
+          - git
+          - tree
+
+    - name: Install packages on servers
+        apt:
+          name: ["cmatrix", "vim", "git", "tree""]
+          state: present
+
+### add user
+    - name: add several users
+      user:
+        name: "{{ item.name }}"
+        state:  "{{ item.state }}"
+        group:  "{{ item.group }}"
+      loop:
+        - { name: 'behnam', state: 'present', group: 'sudo' }
+        - { name: 'milad', state: 'present', group: 'adm' }
+        - { name: 'ansible', state: 'present', group: 'sudo' }
+
+### use all file playboot
+    ---
+    - name: Create user on server
+      import_playbook: create_user.yaml
+
+    - name: Copy file
+      import_playbook: copy.yaml
+
+    - name: debug
+      import_playbook: debug.yaml
 
 
+### make standard directory
+ansible ===>> run ansible here
+   |__main.yaml ===>> - hosts: all
+   |                    roles:
+   |                      - role: preinstall
+   |                    gatehr_facts: yes
+   |                      
+   |__inventory
+   |     |__server-dev.ini
+   |     |__server-prod.ini
+   |     |
+   |     |__group-vars
+   |             |__all.yaml
+   |
+   |__roles
+        |__preinstall
+              |__defaults
+              |     |__main.yaml
+              |
+              |__handlers
+              |     |__main.yaml
+              |
+              |__meta
+              |     |__main.yaml
+              |     |__README.md
+              |
+              |__tasks
+              |     |__main.yaml ===>> ---
+              |                         - name: Set timezone to UTC
+              |                           timezone:
+              |                             name: Etc/UTC
+              | 
+              |                          - name: Set hostname
+              |                             command: hostnamectl set-hostname {{ invemtory_hostname}}
+              |
+              |__tests
+              |     |__inventory
+              |     |__tests.yaml
+              |
+              |__vars
+              |     |__main.yaml
+              |
+              |__templates
+              |     |__main.yaml
+              |
+              |__files
+                    |__main.yal
 
 
-
-
-
+# command for make directory
+ansible-galaxy init preinstall
 
 
 ansible-palybook install_nginx.yaml -i inventory.ini

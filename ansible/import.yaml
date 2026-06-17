@@ -1,0 +1,9 @@
+---
+- name: Create user on server
+  import_playbook: create_user.yaml
+
+- name: Copy file
+  import_playbook: copy.yaml
+
+- name: debug
+  import_playbook: debug.yaml

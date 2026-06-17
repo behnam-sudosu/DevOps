@@ -12,4 +12,14 @@
       user:
         name: deployer
         state: present
-      when: user_check.rc != 0 
+      when: user_check.rc != 0
+
+    - name: add several users
+      user:
+        name: "{{ item.name }}"
+        state:  "{{ item.state }}"
+        group:  "{{ item.group }}"
+      loop:
+        - { name: 'behnam', state: 'present', group: 'sudo' }
+        - { name: 'milad', state: 'present', group: 'adm' }
+        - { name: 'ansible', state: 'present', group: 'sudo' } 

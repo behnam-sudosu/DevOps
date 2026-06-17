@@ -1,0 +1,28 @@
+---
+- name: Install package
+  hosts: all
+  become: yes
+  tasks:
+    - name: Install packages on servers
+        ansible.builtin.apt:
+          name: "{{ item }}"
+          state: present
+        loop:
+          - vim
+          - git
+          - tree
+
+    - name: Install packages on servers
+        apt:
+          name: ["cmatrix", "vim", "git", "tree""]
+          state: present
+
+    - name: add several users
+      user:
+        name: "{{ item.name }}"
+        state:  "{{ item.state }}"
+        group:  "{{ item.group }}"
+      loop:
+        - { name: 'behnam', state: 'present', group: 'sudo' }
+        - { name: 'milad', state: 'present', group: 'adm' }
+        - { name: 'ansible', state: 'present', group: 'sudo' }
