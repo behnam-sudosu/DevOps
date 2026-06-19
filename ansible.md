@@ -358,7 +358,7 @@ ansible ===>> run ansible here
    |                    gatehr_facts: yes
    |                      
    |__inventory
-   |     |__server-dev.ini
+   |     |__server-dev.ini ===>> server-app ansible_host=192.168.1.10
    |     |__server-prod.ini
    |     |
    |     |__group-vars
