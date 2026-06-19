@@ -1,12 +1,14 @@
 # ansible
-    sudo apt install ansible
-    pip install ansible
-    
-    # show version
-    ansible --version
 
-    copy sshkey on server
+```bash
+sudo apt install ansible
+pip install ansible
 
+# show version
+ansible --version
+
+copy sshkey on server
+```
 # ansible server
   mkdir workspace
   /etc/ansible/ansible.cfg ===>> old directory has config file
