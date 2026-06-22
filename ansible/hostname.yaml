@@ -1,0 +1,7 @@
+---
+- name: update and upgrade apt package
+  hosts: all
+  become: yes
+  tasks:
+    - name: Set hostname
+      command: hostnamectl set-hostname {{ invemtory_hostname}}

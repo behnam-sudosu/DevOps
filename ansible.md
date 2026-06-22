@@ -351,6 +351,16 @@ touch install-nfinx.yaml
     - name: debug
       import_playbook: debug.yaml
 
+### chnage time zone and hostname
+---
+- name: Set timezone to UTC
+  timezone:
+    name: Etc/UTC
+
+- name: Set hostname
+  command: hostnamectl set-hostname {{ invemtory_hostname}}                    
+
+
 
 ### make standard directory
 ansible ===>> run ansible here
@@ -380,12 +390,12 @@ ansible ===>> run ansible here
               |
               |__tasks
               |     |__main.yaml ===>> ---
-              |                         - name: Set timezone to UTC
-              |                           timezone:
-              |                             name: Etc/UTC
+              |                        - name: Set timezone to UTC
+              |                          timezone:
+              |                            name: Etc/UTC
               | 
-              |                          - name: Set hostname
-              |                             command: hostnamectl set-hostname {{ invemtory_hostname}}
+              |                        - name: Set hostname
+              |                          command: hostnamectl set-hostname {{ invemtory_hostname}}
               |
               |__tests
               |     |__inventory
