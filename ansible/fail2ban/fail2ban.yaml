@@ -1,10 +1,10 @@
 ---
 - name: install and configure fail2ban
-  hosts: all
+  hosts: test1
   become: true
 
   vars:
-    ssh_port: 2222
+    ssh_port: 2204
     fail2ban_bantime: 2h
     fail2ban_findtime: 60s
     fail2ban_maxtry: 3
